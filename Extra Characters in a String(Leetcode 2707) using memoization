@@ -1,0 +1,25 @@
+class Solution {
+    public static int recur(String s,HashSet<String> set,int index,int[] dp){
+        if(index==s.length())
+            return 0;
+        if(dp[index]!=-1)
+            return dp[index];
+        StringBuilder sb=new StringBuilder();
+        int mini=Integer.MAX_VALUE;
+        for(int i=index;i<s.length();i++){
+            sb.append(s.charAt(i));
+            int extra=0;
+            if(!set.contains(sb.toString()))
+                extra=sb.length();
+            int currExtra=recur(s,set,i+1,dp);
+            mini=Math.min(mini,extra+currExtra);
+        }
+        return dp[index]=mini;
+    }
+    public int minExtraChar(String s, String[] dictionary) {
+        int dp[]=new int[s.length()];
+        Arrays.fill(dp,-1);
+        HashSet<String> set=new HashSet<>(Arrays.asList(dictionary));
+        return recur(s,set,0,dp);
+    }
+}
